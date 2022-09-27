@@ -6,6 +6,7 @@
 		author_=author;
 	}
 	std::set<std::string> Book::keywords() const{
+		//book can be searched by author, isbn, and name
 		std::set<std::string> keys = parseStringToWords(author_);
 		keys.insert(isbn_);
 		std::set<std::string> names = parseStringToWords(name_);

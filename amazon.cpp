@@ -9,6 +9,7 @@
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
+#include "mydatastore.h"
 
 using namespace std;
 struct ProdNameSorter {
@@ -29,8 +30,8 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
-
+    MyDataStore ds;
+		map<string, vector<Product*>> carts; 
 
 
     // Instantiate the individual section and product parsers we want
@@ -62,6 +63,7 @@ int main(int argc, char* argv[])
     cout << "====================================" << endl;
 
     vector<Product*> hits;
+		map<string, User*> userMap = ds.getUserMap();
     bool done = false;
     while(!done) {
         cout << "\nEnter command: " << endl;
@@ -100,10 +102,73 @@ int main(int argc, char* argv[])
                 done = true;
             }
 	    /* Add support for other commands here */
+						else if(cmd == "ADD") {
+							string username;
+							ss>>username;
+							unsigned int index;
+							ss>>index;
+                            //validate if username exists and index is valid
+							if(userMap.find(username)!= userMap.end() && index>=0 && index<hits.size()){
+								Product* p = hits.at(index);
+								if(carts.find(username)!=carts.end()){
+									carts[username].push_back(p);
+								}
+								else{
+                                //insert new user cart to the map if it doesn't exist 
+									vector<Product*> q;
+									q.push_back(p);
+									carts.insert({username, q});
+								}
+							}
+							else{
+								cout << "Invalid request" << endl; 
+							}
+						}
+						else if(cmd=="VIEWCART"){
+							string username;
+							ss>>username;
+							//if user has a cart
+                            if(carts.find(username)!=carts.end()){
+								vector<Product*> q = carts[username];
+								vector<Product*>::iterator  i;
+								int index = 1;
+								for(i=q.begin();i!=q.end(); i++){
+									cout << index << ". "<< (*i)->displayString() << endl;
+									index++;
+								}
+							}
+							else{
+								cout<< "Invalid username" << endl;
+							}
+						}
+						else if(cmd =="BUYCART"){
+							string username;
+							ss>>username;
+                            //if user has a cart:
+							if(carts.find(username)!=carts.end()){
+								vector<Product*> q = carts[username];
+								vector<Product*>::iterator  i;
+								User* u = userMap[username];
 
-
-
-
+								for(i=q.begin();i!=q.end();){
+									Product* p = *i;
+                                    //if user has enough money and product isn't out of stock:
+									if(p->getQty()>0 && u->getBalance()>=p->getPrice()){
+										p->subtractQty(1);
+										u->deductAmount(p->getPrice());
+                                        //remove from user's cart
+										i= q.erase(i);
+									}
+									else{
+                                    //only increase iterator if an erase didn't happen 
+										i++;
+									}
+								}
+							}
+							else{
+								cout<< "Invalid username" << endl;
+							}
+						}
             else {
                 cout << "Unknown command" << endl;
             }

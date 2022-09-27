@@ -24,7 +24,9 @@ std::set<std::string> parseStringToWords(string rawWords)
     string word = "";
     for(unsigned int i=0; i<rawWords.length(); i++){
         char c = rawWords.at(i);
+        //word ends if punctuation or space are met
         if(c ==' '|| std::ispunct(c)){
+            //word has to be bigger than one letter
             if(word.length()>1){
                 wordSet.insert(word);
             }

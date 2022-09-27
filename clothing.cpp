@@ -6,6 +6,7 @@
 		size_= size;
 	}
 	std::set<std::string> Clothing::keywords() const{
+		//clothing can be searched by the words in brand and name
 		std::set<std::string> keys = parseStringToWords(brand_);
 		keys.insert(brand_);
 		std::set<std::string> names = parseStringToWords(name_);

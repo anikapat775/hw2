@@ -6,6 +6,7 @@
 		rating_=rating;
 	}
 	std::set<std::string> Movie::keywords() const{
+		//movie can be searched by genre or name
 		std::set<std::string> keys;
 		keys.insert(genre_);
 		std::set<std::string> names = parseStringToWords(name_);
