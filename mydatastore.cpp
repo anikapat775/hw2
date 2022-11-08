@@ -81,7 +81,7 @@ void MyDataStore::dump(std::ostream& ofile){
 	for(unsigned int i=0; i<users.size(); i++){
 		users.at(i)->dump(ofile);
 	}
-	ofile<<"</users>\n";
+	ofile<<"</users>";
 }
 std::map<std::string, User*> MyDataStore::getUserMap(){
  return userMap;

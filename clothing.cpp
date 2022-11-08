@@ -8,16 +8,15 @@
 	std::set<std::string> Clothing::keywords() const{
 		//clothing can be searched by the words in brand and name
 		std::set<std::string> keys = parseStringToWords(brand_);
-		keys.insert(brand_);
+		//keys.insert(brand_);
 		std::set<std::string> names = parseStringToWords(name_);
 		keys.insert(names.begin(), names.end());
 		return keys;
 	}
 	std::string Clothing::displayString() const{
-		return "clothing\n" + name_ + "\n" + std::to_string(price_) + "\n" + std::to_string(qty_) + "\n" + size_ + "\n" + brand_
-		+ "\n";	
+		return name_ + "\nSize: " + size_ + " Brand: " + brand_ + "\n" + std::to_string(price_) + "\n" + std::to_string(qty_) + " left.";
 }
-	void Clothing::dump(std::ostream& os){
+	void Clothing::dump(std::ostream& os) const{
 		Product::dump(os);
 		os << size_ << "\n" << brand_ << "\n";
 	}

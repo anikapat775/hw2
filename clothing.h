@@ -4,7 +4,7 @@ class Clothing: public Product{
 	Clothing(const std::string name, double price, int qty, const std::string size, const std::string brand);
 	std::set<std::string> keywords() const;
 	std::string displayString() const;
-	void dump(std::ostream& os);
+	void dump(std::ostream& os) const;
 	std::string getBrand();
 	void setBrand(std::string brand);
 	std::string getSize();

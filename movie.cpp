@@ -7,17 +7,16 @@
 	}
 	std::set<std::string> Movie::keywords() const{
 		//movie can be searched by genre or name
-		std::set<std::string> keys;
-		keys.insert(genre_);
+		std::set<std::string> keys = parseStringToWords(genre_);
+		//keys.insert(genre_);
 		std::set<std::string> names = parseStringToWords(name_);
 		keys.insert(names.begin(), names.end());
 		return keys;
 	}
 	std::string Movie::displayString() const{
-		return "movie\n" + name_ + "\n" + std::to_string(price_) + "\n" + std::to_string(qty_) + "\n" + genre_
-		+ "\n" + rating_ + "\n";	
+		return  name_ + "\nGenre: " + genre_ + " Rating: " + rating_ + "\n" + std::to_string(price_) + "\n" + std::to_string(qty_) + " left."; 
 }
-	void Movie::dump(std::ostream& os){
+	void Movie::dump(std::ostream& os) const{
 		Product::dump(os);
 		os << genre_ << "\n" << rating_ << "\n"; 
 	}

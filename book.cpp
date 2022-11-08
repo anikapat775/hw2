@@ -14,10 +14,9 @@
 		return keys;
 	}
 	std::string Book::displayString() const{
-		return "book\n" + name_ + "\n" + std::to_string(price_) + "\n" + std::to_string(qty_) + "\n" + isbn_
-		+ "\n" +author_+"\n";	
+		return name_ + "\nAuthor: " + author_ + " ISBN: " + isbn_ + "\n" + std::to_string(price_) + "\n" + std::to_string(qty_) + " left."; 
 }
-	void Book::dump(std::ostream& os){
+	void Book::dump(std::ostream& os) const {
 		Product::dump(os);
 		os << isbn_ << "\n" << author_ << "\n";
 	}

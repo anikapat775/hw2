@@ -247,3 +247,4 @@ Product* ProductMovieParser::makeProduct()
     return new Movie(prodName_, price_, qty_, genre_, rating_);
 
 }
+
